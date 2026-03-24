@@ -36,7 +36,6 @@ header h2 {
     font-size: 1.55rem;
     flex: 1;
     text-align: center;
-    min-width: 140px;
 }
 
 button {
@@ -47,44 +46,48 @@ button {
     border-radius: 10px;
     font-size: 1.05rem;
     min-height: 48px;
-    min-width: 48px;
 }
 
-#today {
-    padding: 10px 20px;
-    font-size: 1rem;
-}
+#today { padding: 10px 20px; }
 
 .weekdays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    display: flex;
     background: #f1f1f1;
     font-weight: 600;
+    color: #444;
+}
+
+.weekdays > div {
+    flex: 1;
     text-align: center;
     padding: 12px 0;
-    color: #444;
     font-size: 0.95rem;
 }
 
+/* HLAVNÍ ZMĚNA – místo grid používáme flexbox (stabilnější na Safari iOS) */
 .days {
-    display: grid !important;
-    grid-template-columns: repeat(7, 1fr) !important;
-    gap: 1px;
+    display: flex;
+    flex-wrap: wrap;
     background: #ddd;
-    min-height: 400px;           /* důležité pro mobil */
 }
 
 .day {
+    width: 14.2857%;           /* přesně 1/7 */
     background: white;
-    min-height: 92px;            /* větší buňky na mobilu */
+    min-height: 92px;
     padding: 8px 6px;
     font-size: 1.15rem;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     cursor: pointer;
-    transition: background 0.2s;
+}
+
+.day:nth-child(7n) {        /* poslední sloupec v řádku */
+    border-right: none;
 }
 
 .day:hover, .day:active {
@@ -101,16 +104,16 @@ button {
     border: 2px solid #4f46e5;
 }
 
-/* === MODAL pro iPhone === */
+/* Modal – stejný jako předtím */
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000;
     inset: 0;
     background: rgba(0,0,0,0.65);
     align-items: center;
     justify-content: center;
     padding: 15px;
+    z-index: 1000;
 }
 
 .modal-content {
@@ -122,19 +125,15 @@ button {
     box-shadow: 0 20px 50px rgba(0,0,0,0.3);
     max-height: 85vh;
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
 }
 
 .close {
     position: absolute;
-    top: 14px;
-    right: 20px;
+    top: 14px; right: 20px;
     font-size: 34px;
     color: #888;
     cursor: pointer;
 }
-
-.shifts-list { margin: 20px 0; }
 
 .shift-item {
     background: #f8f9ff;
@@ -152,17 +151,13 @@ button {
     color: white;
     border: none;
     border-radius: 12px;
-    margin-top: 10px;
 }
 
-.add-form input,
-.add-form textarea {
+.add-form input, .add-form textarea {
     width: 100%;
     padding: 14px;
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 10px;
-    font-size: 16px;   /* zabrání zoomu na iOS */
+    font-size: 16px;
 }
-
-/* Extra bezpečnost
