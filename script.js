@@ -3,20 +3,15 @@ const monthYear = document.getElementById('monthYear');
 const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
 const todayBtn = document.getElementById('today');
-const dayModal = document.getElementById('dayModal');
-const modalDate = document.getElementById('modalDate');
-const closeDayModal = document.getElementById('closeDayModal');
 
 let currentDate = new Date();
 
-// Jednoduché vykreslení kalendáře
 function renderCalendar() {
     daysContainer.innerHTML = '';
     
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
-    const monthNames = ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", 
-                        "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"];
+    const monthNames = ["Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec"];
     
     monthYear.textContent = `${monthNames[month]} ${year}`;
 
@@ -28,11 +23,12 @@ function renderCalendar() {
     // Prázdné buňky před 1. dnem
     for (let i = 0; i < firstDay; i++) {
         const empty = document.createElement('div');
-        empty.className = 'day other-month';
+        empty.className = 'day';
+        empty.style.opacity = '0.3';
         daysContainer.appendChild(empty);
     }
 
-    // Dny v měsíci
+    // Aktuální dny
     const today = new Date();
     for (let day = 1; day <= daysInMonth; day++) {
         const dayEl = document.createElement('div');
@@ -43,23 +39,14 @@ function renderCalendar() {
             dayEl.classList.add('today');
         }
 
+        // Kliknutí na den (pro test)
         dayEl.addEventListener('click', () => {
-            modalDate.textContent = `${day}. ${monthNames[month]} ${year}`;
-            dayModal.style.display = 'flex';
+            alert(`Klikl jsi na ${day}. ${monthNames[month]} ${year}`);
         });
 
         daysContainer.appendChild(dayEl);
     }
 }
-
-// Zavření modalu
-closeDayModal.addEventListener('click', () => {
-    dayModal.style.display = 'none';
-});
-
-dayModal.addEventListener('click', (e) => {
-    if (e.target === dayModal) dayModal.style.display = 'none';
-});
 
 // Navigace
 prevBtn.addEventListener('click', () => {
