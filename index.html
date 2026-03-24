@@ -11,7 +11,7 @@
         <header>
             <button id="prev">←</button>
             <button id="next">→</button>
-            <h2 id="monthYear"></h2>
+            <h2 id="monthYear">Březen 2026</h2>
             <button id="today">Dnes</button>
             <button id="settingsBtn">Nastavení</button>
         </header>
@@ -23,42 +23,13 @@
         <div id="days" class="days"></div>
     </div>
 
-    <!-- Modal pro den + směny -->
+    <!-- Modal pro den -->
     <div id="dayModal" class="modal">
         <div class="modal-content">
-            <span id="closeDayModal" class="close">&times;</span>
+            <span id="closeDayModal" class="close">×</span>
             <h3 id="modalDate"></h3>
-            
             <div id="shiftsList" class="shifts-list"></div>
-            
             <button id="addShiftBtn" class="add-btn">+ Přidat směnu</button>
-            
-            <div id="addShiftForm" class="add-form" style="display: none;">
-                <select id="shiftType" required></select>
-                <input type="time" id="shiftStart" required>
-                <input type="time" id="shiftEnd" required>
-                <textarea id="shiftNote" placeholder="Poznámka (volitelné)"></textarea>
-                <div class="form-buttons">
-                    <button id="saveShiftBtn">Uložit směnu</button>
-                    <button id="cancelShiftBtn">Zrušit</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal pro nastavení typů směn -->
-    <div id="settingsModal" class="modal">
-        <div class="modal-content">
-            <span id="closeSettingsModal" class="close">&times;</span>
-            <h3>Nastavení typů směn</h3>
-            
-            <div id="typesList" class="types-list"></div>
-            
-            <div class="add-type-form">
-                <input type="text" id="newTypeName" placeholder="Název typu">
-                <input type="color" id="newTypeColor" value="#3b82f6">
-                <button id="addTypeBtn">Přidat typ</button>
-            </div>
         </div>
     </div>
 
