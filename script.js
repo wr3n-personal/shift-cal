@@ -159,29 +159,29 @@ document.getElementById('cancelShiftBtn').addEventListener('click', () => {
     addShiftBtn.style.display = 'block';
 });
 
-// Zavření modalu
-closeModalBtn.addEventListener('click', () => {
+// === ZAVÍRÁNÍ MODALU (opraveno pro iOS Safari) ===
+const closeModal = () => {
     modal.style.display = 'none';
+    // Reset formuláře při zavření
+    addShiftForm.style.display = 'none';
+    addShiftBtn.style.display = 'block';
+};
+
+// Zavření křížkem
+closeModalBtn.addEventListener('click', closeModal);
+
+// Zavření kliknutím mimo obsah modalu
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        closeModal();
+    }
 });
 
-window.addEventListener('click', (e) => {
-    if (e.target === modal) modal.style.display = 'none';
-});
-
-// Navigace kalendáře
-prevBtn.addEventListener('click', () => {
-    currentDate.setMonth(currentDate.getMonth() - 1);
-    renderCalendar();
-});
-
-nextBtn.addEventListener('click', () => {
-    currentDate.setMonth(currentDate.getMonth() + 1);
-    renderCalendar();
-});
-
-todayBtn.addEventListener('click', () => {
-    currentDate = new Date();
-    renderCalendar();
+// Zavření pomocí klávesy Escape (funguje i na mobilu)
+document.addEventListener('keydown', (e) => {
+    if (e.key === "Escape" && modal.style.display === 'flex') {
+        closeModal();
+    }
 });
 
 // Spuštění
