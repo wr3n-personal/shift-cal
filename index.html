@@ -2,16 +2,17 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Můj měsíční kalendář – Směny</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- zbytek stejný jako předtím – kalendář + modal zůstává beze změny -->
     <div class="calendar">
         <header>
-            <button id="prev">← Předchozí</button>
+            <button id="prev">←</button>
             <h2 id="monthYear"></h2>
-            <button id="next">Další →</button>
+            <button id="next">→</button>
             <button id="today">Dnes</button>
         </header>
         
@@ -22,7 +23,7 @@
         <div id="days" class="days"></div>
     </div>
 
-    <!-- Modal pro směny -->
+    <!-- Modal (stejný jako minule) -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <span id="closeModal" class="close">&times;</span>
@@ -32,7 +33,6 @@
             
             <button id="addShiftBtn" class="add-btn">+ Přidat směnu</button>
             
-            <!-- Formulář pro přidání směny (skrytý na začátku) -->
             <div id="addShiftForm" class="add-form" style="display: none;">
                 <input type="text" id="shiftTitle" placeholder="Název směny (např. Ranní)" required>
                 <input type="time" id="shiftStart" required>
