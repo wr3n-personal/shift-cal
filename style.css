@@ -33,23 +33,27 @@ header {
 
 header h2 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.55rem;
     flex: 1;
     text-align: center;
+    min-width: 140px;
 }
 
 button {
     background: rgba(255,255,255,0.25);
     color: white;
     border: none;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 1rem;
-    min-height: 44px; /* lepší pro touch */
-    cursor: pointer;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    min-height: 48px;
+    min-width: 48px;
 }
 
-#today { padding: 10px 18px; }
+#today {
+    padding: 10px 20px;
+    font-size: 1rem;
+}
 
 .weekdays {
     display: grid;
@@ -57,29 +61,30 @@ button {
     background: #f1f1f1;
     font-weight: 600;
     text-align: center;
-    padding: 10px 0;
+    padding: 12px 0;
     color: #444;
     font-size: 0.95rem;
 }
 
 .days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr) !important;
     gap: 1px;
-    background: #e0e0e0;
+    background: #ddd;
+    min-height: 400px;           /* důležité pro mobil */
 }
 
 .day {
     background: white;
-    min-height: 85px; /* větší na mobilu */
-    padding: 8px;
-    font-size: 1.1rem;
-    position: relative;
+    min-height: 92px;            /* větší buňky na mobilu */
+    padding: 8px 6px;
+    font-size: 1.15rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     cursor: pointer;
     transition: background 0.2s;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
 }
 
 .day:hover, .day:active {
@@ -87,35 +92,34 @@ button {
 }
 
 .day.other-month {
-    color: #999;
+    color: #aaa;
 }
 
 .day.today {
     background: #e0e7ff;
     font-weight: bold;
+    border: 2px solid #4f46e5;
 }
 
-/* === MODAL – optimalizováno pro iOS === */
+/* === MODAL pro iPhone === */
 .modal {
     display: none;
     position: fixed;
     z-index: 1000;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
+    inset: 0;
     background: rgba(0,0,0,0.65);
     align-items: center;
     justify-content: center;
     padding: 15px;
-    -webkit-overflow-scrolling: touch; /* důležité pro iOS */
 }
 
 .modal-content {
     background: white;
     width: 100%;
     max-width: 420px;
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
     max-height: 85vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -123,27 +127,32 @@ button {
 
 .close {
     position: absolute;
-    top: 12px; right: 18px;
-    font-size: 32px;
-    cursor: pointer;
+    top: 14px;
+    right: 20px;
+    font-size: 34px;
     color: #888;
+    cursor: pointer;
 }
 
-.shifts-list { margin-bottom: 20px; }
+.shifts-list { margin: 20px 0; }
 
 .shift-item {
     background: #f8f9ff;
     padding: 14px;
     margin-bottom: 12px;
     border-radius: 12px;
-    border-left: 5px solid #4f46e5;
+    border-left: 6px solid #4f46e5;
 }
 
-.add-btn, .form-buttons button {
+.add-btn {
     width: 100%;
-    padding: 14px;
-    font-size: 1.1rem;
-    min-height: 50px;
+    padding: 16px;
+    font-size: 1.15rem;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    margin-top: 10px;
 }
 
 .add-form input,
@@ -151,28 +160,9 @@ button {
     width: 100%;
     padding: 14px;
     margin: 10px 0;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     border-radius: 10px;
-    font-size: 16px; /* prevence zoomu na iOS */
+    font-size: 16px;   /* zabrání zoomu na iOS */
 }
 
-/* Mobilní optimalizace */
-@media (max-width: 480px) {
-    .day {
-        min-height: 78px;
-        font-size: 1.05rem;
-        padding: 6px 4px;
-    }
-    
-    header {
-        padding: 12px 10px;
-    }
-    
-    header h2 {
-        font-size: 1.35rem;
-    }
-    
-    .modal-content {
-        padding: 18px;
-    }
-}
+/* Extra bezpečnost
