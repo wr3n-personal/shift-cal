@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Můj měsíční kalendář – Směny</title>
+    <title>Můj kalendář směn</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- zbytek stejný jako předtím – kalendář + modal zůstává beze změny -->
     <div class="calendar">
         <header>
             <button id="prev">←</button>
             <h2 id="monthYear"></h2>
             <button id="next">→</button>
             <button id="today">Dnes</button>
+            <button id="settingsBtn">Nastavení</button>
         </header>
         
         <div class="weekdays">
@@ -23,10 +23,10 @@
         <div id="days" class="days"></div>
     </div>
 
-    <!-- Modal (stejný jako minule) -->
-    <div id="modal" class="modal">
+    <!-- Modal pro den -->
+    <div id="dayModal" class="modal">
         <div class="modal-content">
-            <span id="closeModal" class="close">&times;</span>
+            <span id="closeDayModal" class="close">&times;</span>
             <h3 id="modalDate"></h3>
             
             <div id="shiftsList" class="shifts-list"></div>
@@ -34,18 +34,9 @@
             <button id="addShiftBtn" class="add-btn">+ Přidat směnu</button>
             
             <div id="addShiftForm" class="add-form" style="display: none;">
-                <input type="text" id="shiftTitle" placeholder="Název směny (např. Ranní)" required>
+                <select id="shiftType" required></select>
                 <input type="time" id="shiftStart" required>
                 <input type="time" id="shiftEnd" required>
                 <textarea id="shiftNote" placeholder="Poznámka (volitelné)"></textarea>
                 <div class="form-buttons">
-                    <button id="saveShiftBtn">Uložit směnu</button>
-                    <button id="cancelShiftBtn">Zrušit</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
+                    <button id="saveShift
