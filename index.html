@@ -17,4 +17,51 @@
         </header>
         
         <div class="weekdays">
-            <div>Po</div><div>Út
+            <div>Po</div><div>Út</div><div>St</div><div>Čt</div><div>Pá</div><div>So</div><div>Ne</div>
+        </div>
+        
+        <div id="days" class="days"></div>
+    </div>
+
+    <!-- Modal pro den + směny -->
+    <div id="dayModal" class="modal">
+        <div class="modal-content">
+            <span id="closeDayModal" class="close">&times;</span>
+            <h3 id="modalDate"></h3>
+            
+            <div id="shiftsList" class="shifts-list"></div>
+            
+            <button id="addShiftBtn" class="add-btn">+ Přidat směnu</button>
+            
+            <div id="addShiftForm" class="add-form" style="display: none;">
+                <select id="shiftType" required></select>
+                <input type="time" id="shiftStart" required>
+                <input type="time" id="shiftEnd" required>
+                <textarea id="shiftNote" placeholder="Poznámka (volitelné)"></textarea>
+                <div class="form-buttons">
+                    <button id="saveShiftBtn">Uložit směnu</button>
+                    <button id="cancelShiftBtn">Zrušit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pro nastavení typů směn -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span id="closeSettingsModal" class="close">&times;</span>
+            <h3>Nastavení typů směn</h3>
+            
+            <div id="typesList" class="types-list"></div>
+            
+            <div class="add-type-form">
+                <input type="text" id="newTypeName" placeholder="Název typu">
+                <input type="color" id="newTypeColor" value="#3b82f6">
+                <button id="addTypeBtn">Přidat typ</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
