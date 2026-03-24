@@ -10,10 +10,9 @@
     <div class="calendar">
         <header>
             <button id="prev">←</button>
+            <h2 id="monthYear"></h2>
             <button id="next">→</button>
-            <h2 id="monthYear">Březen 2026</h2>
             <button id="today">Dnes</button>
-            <button id="settingsBtn">Nastavení</button>
         </header>
         
         <div class="weekdays">
@@ -21,16 +20,6 @@
         </div>
         
         <div id="days" class="days"></div>
-    </div>
-
-    <!-- Modal pro den -->
-    <div id="dayModal" class="modal">
-        <div class="modal-content">
-            <span id="closeDayModal" class="close">×</span>
-            <h3 id="modalDate"></h3>
-            <div id="shiftsList" class="shifts-list"></div>
-            <button id="addShiftBtn" class="add-btn">+ Přidat směnu</button>
-        </div>
     </div>
 
     <script src="script.js"></script>
