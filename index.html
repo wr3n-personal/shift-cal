@@ -1,0 +1,26 @@
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Měsíční kalendář</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calendar">
+        <header>
+            <button id="prev">←</button>
+            <h2 id="monthYear"></h2>
+            <button id="next">→</button>
+            <button id="today">Dnes</button>
+        </header>
+        
+        <div class="weekdays">
+            <div>Po</div><div>Út</div><div>St</div><div>Čt</div><div>Pá</div><div>So</div><div>Ne</div>
+        </div>
+        
+        <div id="days" class="days"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
