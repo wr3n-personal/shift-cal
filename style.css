@@ -1,102 +1,85 @@
-* {
-    box-sizing: border-box;
-}
+* /* ... (původní styly zůstávají) ... */
 
-body {
-    font-family: system-ui, -apple-system, sans-serif;
-    background: #f8f9fa;
-    margin: 0;
-    padding: 20px;
-    display: flex;
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    align-items: center;
     justify-content: center;
 }
 
-.calendar {
-    width: 100%;
-    max-width: 800px;
+.modal-content {
     background: white;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    overflow: hidden;
+    max-width: 420px;
+    width: 90%;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    position: relative;
 }
 
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
+.close {
+    position: absolute;
+    top: 15px; right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #888;
+}
+
+.close:hover { color: #000; }
+
+#modalDate {
+    margin: 0 0 20px 0;
+    color: #4f46e5;
+    text-align: center;
+}
+
+.shifts-list {
+    min-height: 100px;
+    margin-bottom: 20px;
+}
+
+.shift-item {
+    background: #f8f9ff;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border-left: 5px solid #4f46e5;
+}
+
+.shift-item strong { display: block; color: #333; }
+
+.add-btn {
+    width: 100%;
+    padding: 14px;
     background: #4f46e5;
     color: white;
-}
-
-header h2 {
-    margin: 0;
-    font-size: 1.6rem;
-}
-
-button {
-    background: rgba(255,255,255,0.2);
-    color: white;
     border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 1.4rem;
+    border-radius: 10px;
+    font-size: 1.1rem;
     cursor: pointer;
-    transition: 0.2s;
 }
 
-button:hover {
-    background: rgba(255,255,255,0.3);
-}
-
-#today {
-    padding: 0 16px;
+.add-form input,
+.add-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 1rem;
-    width: auto;
 }
 
-.weekdays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    background: #f1f1f1;
-    font-weight: bold;
-    text-align: center;
-    padding: 10px 0;
+.form-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
 }
 
-.days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 1px;
-    background: #eee;
-}
-
-.day {
-    background: white;
-    min-height: 100px;
-    padding: 8px;
-    font-size: 1.1rem;
-    position: relative;
-    transition: background 0.2s;
-}
-
-.day:hover {
-    background: #f0f4ff;
-}
-
-.day.other-month {
-    color: #aaa;
-}
-
-.day.today {
-    background: #eef2ff;
-    font-weight: bold;
-}
-
-.day-name {
-    font-size: 0.8rem;
-    color: #666;
-    margin-bottom: 4px;
+.form-buttons button {
+    flex: 1;
+    padding: 12px;
 }
