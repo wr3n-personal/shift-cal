@@ -22,7 +22,6 @@ let shiftTypes = JSON.parse(localStorage.getItem('shiftTypes')) || [
 function saveShifts() { localStorage.setItem('calendarShifts', JSON.stringify(shifts)); }
 function saveShiftTypes() { localStorage.setItem('shiftTypes', JSON.stringify(shiftTypes)); }
 
-// Formát data
 function formatDateKey(date) {
     return date.toISOString().split('T')[0];
 }
@@ -71,7 +70,6 @@ function createDayElement(day, isOtherMonth) {
     const thisDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
     const dateKey = formatDateKey(thisDate);
 
-    // Zjistí, jestli má den nějakou směnu
     if (shifts.some(s => s.date === dateKey)) {
         dayEl.classList.add('has-shift');
     }
@@ -88,31 +86,29 @@ function createDayElement(day, isOtherMonth) {
     return dayEl;
 }
 
-// Zobrazení směn v modalu
 function showShiftsForDay() {
     const list = document.getElementById('shiftsList');
     list.innerHTML = '';
     const dayShifts = shifts.filter(s => s.date === selectedDateKey);
 
     if (dayShifts.length === 0) {
-        list.innerHTML = '<p style="text-align:center;color:#888;padding:20px;">Zatím žádná směna</p>';
+        list.innerHTML = '<p style="text-align:center;color:#888;padding:30px 0;">Zatím žádná směna</p>';
     } else {
-        dayShifts.forEach((shift, index) => {
-            const type = shiftTypes.find(t => t.id === shift.typeId) || {name: shift.title, color: '#4f46e5'};
+        dayShifts.forEach(shift => {
+            const type = shiftTypes.find(t => t.id === shift.typeId) || {name: "Směna", color: "#4f46e5"};
             const div = document.createElement('div');
             div.className = 'shift-item';
             div.style.setProperty('--shift-color', type.color);
             div.innerHTML = `
                 <strong>${type.name}</strong>
                 <span>${shift.start} – ${shift.end}</span>
-                ${shift.note ? `<p style="margin:5px 0 0;font-size:0.9rem;color:#555;">${shift.note}</p>` : ''}
+                ${shift.note ? `<p style="margin:5px 0 0; font-size:0.9rem; color:#555;">${shift.note}</p>` : ''}
             `;
             list.appendChild(div);
         });
     }
 }
 
-// Naplnění selectu typy směn
 function populateShiftTypes() {
     const select = document.getElementById('shiftType');
     select.innerHTML = '';
@@ -124,23 +120,7 @@ function populateShiftTypes() {
     });
 }
 
-// Nastavení typů
-function renderShiftTypes() {
-    const list = document.getElementById('typesList');
-    list.innerHTML = '';
-    shiftTypes.forEach((type, index) => {
-        const div = document.createElement('div');
-        div.className = 'type-item';
-        div.innerHTML = `
-            <div class="color-dot" style="background:${type.color}"></div>
-            <span>${type.name}</span>
-            <button class="delete-type" data-index="${index}">Smazat</button>
-        `;
-        list.appendChild(div);
-    });
-}
-
-// Event listenery
+// Eventy pro přidávání směny
 document.getElementById('addShiftBtn').addEventListener('click', () => {
     populateShiftTypes();
     document.getElementById('addShiftForm').style.display = 'block';
@@ -153,11 +133,15 @@ document.getElementById('saveShiftBtn').addEventListener('click', () => {
     const end = document.getElementById('shiftEnd').value;
     const note = document.getElementById('shiftNote').value.trim();
 
-    if (!typeId || !start || !end) return alert('Vyplňte všechny povinné údaje.');
+    if (!typeId || !start || !end) {
+        alert('Vyplňte všechny povinné údaje.');
+        return;
+    }
 
     shifts.push({ date: selectedDateKey, typeId, start, end, note });
     saveShifts();
     showShiftsForDay();
+
     document.getElementById('addShiftForm').style.display = 'none';
     document.getElementById('addShiftBtn').style.display = 'block';
 });
@@ -167,16 +151,31 @@ document.getElementById('cancelShiftBtn').addEventListener('click', () => {
     document.getElementById('addShiftBtn').style.display = 'block';
 });
 
-// Nastavení modal
+// Nastavení
 settingsBtn.addEventListener('click', () => {
     renderShiftTypes();
     settingsModal.style.display = 'flex';
 });
 
+function renderShiftTypes() {
+    const list = document.getElementById('typesList');
+    list.innerHTML = '';
+    shiftTypes.forEach((type, index) => {
+        const div = document.createElement('div');
+        div.className = 'type-item';
+        div.innerHTML = `
+            <div class="color-dot" style="background:${type.color}"></div>
+            <span>${type.name}</span>
+            <button class="delete-type" data-index="${index}" style="margin-left:auto; background:#ef4444; color:white; border:none; padding:6px 10px; border-radius:6px;">Smazat</button>
+        `;
+        list.appendChild(div);
+    });
+}
+
 document.getElementById('addTypeBtn').addEventListener('click', () => {
     const name = document.getElementById('newTypeName').value.trim();
     const color = document.getElementById('newTypeColor').value;
-    if (!name) return alert('Zadejte název typu směny');
+    if (!name) return alert('Zadejte název typu');
     
     shiftTypes.push({ id: Date.now(), name, color });
     saveShiftTypes();
@@ -187,7 +186,7 @@ document.getElementById('addTypeBtn').addEventListener('click', () => {
 document.getElementById('typesList').addEventListener('click', (e) => {
     if (e.target.classList.contains('delete-type')) {
         const index = parseInt(e.target.dataset.index);
-        if (confirm('Opravdu smazat tento typ směny?')) {
+        if (confirm('Opravdu chcete smazat tento typ směny?')) {
             shiftTypes.splice(index, 1);
             saveShiftTypes();
             renderShiftTypes();
@@ -203,8 +202,8 @@ function closeModal(modalEl) {
 document.getElementById('closeDayModal').addEventListener('click', () => closeModal(dayModal));
 document.getElementById('closeSettingsModal').addEventListener('click', () => closeModal(settingsModal));
 
-dayModal.addEventListener('click', (e) => { if (e.target === dayModal) closeModal(dayModal); });
-settingsModal.addEventListener('click', (e) => { if (e.target === settingsModal) closeModal(settingsModal); });
+dayModal.addEventListener('click', e => { if (e.target === dayModal) closeModal(dayModal); });
+settingsModal.addEventListener('click', e => { if (e.target === settingsModal) closeModal(settingsModal); });
 
 // Navigace
 prevBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); });
