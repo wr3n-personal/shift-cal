@@ -3,26 +3,26 @@ const monthYear = document.getElementById('monthYear');
 const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
 const todayBtn = document.getElementById('today');
+const settingsBtn = document.getElementById('settingsBtn');
 
-const modal = document.getElementById('modal');
-const modalDate = document.getElementById('modalDate');
-const shiftsList = document.getElementById('shiftsList');
-const addShiftBtn = document.getElementById('addShiftBtn');
-const addShiftForm = document.getElementById('addShiftForm');
-const closeModalBtn = document.getElementById('closeModal');
+const dayModal = document.getElementById('dayModal');
+const settingsModal = document.getElementById('settingsModal');
 
 let currentDate = new Date();
-let selectedDateKey = '';   // formát YYYY-MM-DD
-
-// Načtení směn z localStorage
+let selectedDateKey = '';
 let shifts = JSON.parse(localStorage.getItem('calendarShifts')) || [];
+let shiftTypes = JSON.parse(localStorage.getItem('shiftTypes')) || [
+    { id: 1, name: "Ranní", color: "#3b82f6" },
+    { id: 2, name: "Odpolední", color: "#10b981" },
+    { id: 3, name: "Noční", color: "#8b5cf6" },
+    { id: 4, name: "Volno", color: "#6b7280" }
+];
 
-// Uložení směn
-function saveShifts() {
-    localStorage.setItem('calendarShifts', JSON.stringify(shifts));
-}
+// Ukládání
+function saveShifts() { localStorage.setItem('calendarShifts', JSON.stringify(shifts)); }
+function saveShiftTypes() { localStorage.setItem('shiftTypes', JSON.stringify(shiftTypes)); }
 
-// Formát data pro klíč: 2026-03-24
+// Formát data
 function formatDateKey(date) {
     return date.toISOString().split('T')[0];
 }
@@ -30,41 +30,35 @@ function formatDateKey(date) {
 // Vykreslení kalendáře
 function renderCalendar() {
     daysContainer.innerHTML = '';
-    
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
-    
     const monthNames = ["Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec"];
     monthYear.textContent = `${monthNames[month]} ${year}`;
-    
+
     let firstDay = new Date(year, month, 1).getDay();
     firstDay = firstDay === 0 ? 6 : firstDay - 1;
-    
+
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const daysInPrevMonth = new Date(year, month, 0).getDate();
-    
+
     // Předchozí měsíc
     for (let i = firstDay - 1; i >= 0; i--) {
-        const dayEl = createDayElement(daysInPrevMonth - i, true);
-        daysContainer.appendChild(dayEl);
+        daysContainer.appendChild(createDayElement(daysInPrevMonth - i, true));
     }
-    
+
     const today = new Date();
     for (let day = 1; day <= daysInMonth; day++) {
         const dayEl = createDayElement(day, false);
-        
         if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
             dayEl.classList.add('today');
         }
-        
         daysContainer.appendChild(dayEl);
     }
-    
+
     // Následující měsíc
     const remaining = 42 - (firstDay + daysInMonth);
     for (let day = 1; day <= remaining; day++) {
-        const dayEl = createDayElement(day, true);
-        daysContainer.appendChild(dayEl);
+        daysContainer.appendChild(createDayElement(day, true));
     }
 }
 
@@ -72,117 +66,150 @@ function createDayElement(day, isOtherMonth) {
     const dayEl = document.createElement('div');
     dayEl.classList.add('day');
     if (isOtherMonth) dayEl.classList.add('other-month');
-    
     dayEl.innerHTML = `<strong>${day}</strong>`;
-    
-    // Kliknutí na den
+
+    const thisDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+    const dateKey = formatDateKey(thisDate);
+
+    // Zjistí, jestli má den nějakou směnu
+    if (shifts.some(s => s.date === dateKey)) {
+        dayEl.classList.add('has-shift');
+    }
+
     dayEl.addEventListener('click', () => {
-        const clickedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-        selectedDateKey = formatDateKey(clickedDate);
-        
-        modalDate.textContent = clickedDate.toLocaleDateString('cs-CZ', { 
-            weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' 
+        selectedDateKey = dateKey;
+        document.getElementById('modalDate').textContent = thisDate.toLocaleDateString('cs-CZ', {
+            weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
         });
-        
         showShiftsForDay();
-        modal.style.display = 'flex';
-        addShiftForm.style.display = 'none';
+        dayModal.style.display = 'flex';
     });
-    
+
     return dayEl;
 }
 
-// Zobrazení směn pro vybraný den
+// Zobrazení směn v modalu
 function showShiftsForDay() {
-    shiftsList.innerHTML = '';
-    
+    const list = document.getElementById('shiftsList');
+    list.innerHTML = '';
     const dayShifts = shifts.filter(s => s.date === selectedDateKey);
-    
+
     if (dayShifts.length === 0) {
-        shiftsList.innerHTML = '<p style="text-align:center; color:#888; padding:20px;">Zatím žádná směna</p>';
+        list.innerHTML = '<p style="text-align:center;color:#888;padding:20px;">Zatím žádná směna</p>';
     } else {
         dayShifts.forEach((shift, index) => {
+            const type = shiftTypes.find(t => t.id === shift.typeId) || {name: shift.title, color: '#4f46e5'};
             const div = document.createElement('div');
             div.className = 'shift-item';
+            div.style.setProperty('--shift-color', type.color);
             div.innerHTML = `
-                <strong>${shift.title}</strong>
+                <strong>${type.name}</strong>
                 <span>${shift.start} – ${shift.end}</span>
-                ${shift.note ? `<p style="margin:5px 0 0; font-size:0.9rem; color:#555;">${shift.note}</p>` : ''}
+                ${shift.note ? `<p style="margin:5px 0 0;font-size:0.9rem;color:#555;">${shift.note}</p>` : ''}
             `;
-            shiftsList.appendChild(div);
+            list.appendChild(div);
         });
     }
 }
 
-// Otevření formuláře pro přidání
-addShiftBtn.addEventListener('click', () => {
-    addShiftForm.style.display = 'block';
-    addShiftBtn.style.display = 'none';
+// Naplnění selectu typy směn
+function populateShiftTypes() {
+    const select = document.getElementById('shiftType');
+    select.innerHTML = '';
+    shiftTypes.forEach(type => {
+        const opt = document.createElement('option');
+        opt.value = type.id;
+        opt.textContent = type.name;
+        select.appendChild(opt);
+    });
+}
+
+// Nastavení typů
+function renderShiftTypes() {
+    const list = document.getElementById('typesList');
+    list.innerHTML = '';
+    shiftTypes.forEach((type, index) => {
+        const div = document.createElement('div');
+        div.className = 'type-item';
+        div.innerHTML = `
+            <div class="color-dot" style="background:${type.color}"></div>
+            <span>${type.name}</span>
+            <button class="delete-type" data-index="${index}">Smazat</button>
+        `;
+        list.appendChild(div);
+    });
+}
+
+// Event listenery
+document.getElementById('addShiftBtn').addEventListener('click', () => {
+    populateShiftTypes();
+    document.getElementById('addShiftForm').style.display = 'block';
+    document.getElementById('addShiftBtn').style.display = 'none';
 });
 
-// Uložení nové směny
 document.getElementById('saveShiftBtn').addEventListener('click', () => {
-    const title = document.getElementById('shiftTitle').value.trim();
+    const typeId = parseInt(document.getElementById('shiftType').value);
     const start = document.getElementById('shiftStart').value;
     const end = document.getElementById('shiftEnd').value;
     const note = document.getElementById('shiftNote').value.trim();
-    
-    if (!title || !start || !end) {
-        alert('Vyplňte název, začátek a konec směny.');
-        return;
-    }
-    
-    shifts.push({
-        date: selectedDateKey,
-        title: title,
-        start: start,
-        end: end,
-        note: note
-    });
-    
+
+    if (!typeId || !start || !end) return alert('Vyplňte všechny povinné údaje.');
+
+    shifts.push({ date: selectedDateKey, typeId, start, end, note });
     saveShifts();
     showShiftsForDay();
-    
-    // Reset formuláře
-    document.getElementById('shiftTitle').value = '';
-    document.getElementById('shiftStart').value = '';
-    document.getElementById('shiftEnd').value = '';
-    document.getElementById('shiftNote').value = '';
-    
-    addShiftForm.style.display = 'none';
-    addShiftBtn.style.display = 'block';
+    document.getElementById('addShiftForm').style.display = 'none';
+    document.getElementById('addShiftBtn').style.display = 'block';
 });
 
-// Zrušení přidávání
 document.getElementById('cancelShiftBtn').addEventListener('click', () => {
-    addShiftForm.style.display = 'none';
-    addShiftBtn.style.display = 'block';
+    document.getElementById('addShiftForm').style.display = 'none';
+    document.getElementById('addShiftBtn').style.display = 'block';
 });
 
-// === ZAVÍRÁNÍ MODALU (opraveno pro iOS Safari) ===
-const closeModal = () => {
-    modal.style.display = 'none';
-    // Reset formuláře při zavření
-    addShiftForm.style.display = 'none';
-    addShiftBtn.style.display = 'block';
-};
+// Nastavení modal
+settingsBtn.addEventListener('click', () => {
+    renderShiftTypes();
+    settingsModal.style.display = 'flex';
+});
 
-// Zavření křížkem
-closeModalBtn.addEventListener('click', closeModal);
+document.getElementById('addTypeBtn').addEventListener('click', () => {
+    const name = document.getElementById('newTypeName').value.trim();
+    const color = document.getElementById('newTypeColor').value;
+    if (!name) return alert('Zadejte název typu směny');
+    
+    shiftTypes.push({ id: Date.now(), name, color });
+    saveShiftTypes();
+    renderShiftTypes();
+    document.getElementById('newTypeName').value = '';
+});
 
-// Zavření kliknutím mimo obsah modalu
-modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-        closeModal();
+document.getElementById('typesList').addEventListener('click', (e) => {
+    if (e.target.classList.contains('delete-type')) {
+        const index = parseInt(e.target.dataset.index);
+        if (confirm('Opravdu smazat tento typ směny?')) {
+            shiftTypes.splice(index, 1);
+            saveShiftTypes();
+            renderShiftTypes();
+        }
     }
 });
 
-// Zavření pomocí klávesy Escape (funguje i na mobilu)
-document.addEventListener('keydown', (e) => {
-    if (e.key === "Escape" && modal.style.display === 'flex') {
-        closeModal();
-    }
-});
+// Zavírání modalů
+function closeModal(modalEl) {
+    modalEl.style.display = 'none';
+}
 
-// Spuštění
+document.getElementById('closeDayModal').addEventListener('click', () => closeModal(dayModal));
+document.getElementById('closeSettingsModal').addEventListener('click', () => closeModal(settingsModal));
+
+dayModal.addEventListener('click', (e) => { if (e.target === dayModal) closeModal(dayModal); });
+settingsModal.addEventListener('click', (e) => { if (e.target === settingsModal) closeModal(settingsModal); });
+
+// Navigace
+prevBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); });
+nextBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); });
+todayBtn.addEventListener('click', () => { currentDate = new Date(); renderCalendar(); });
+
+// Start
 renderCalendar();
