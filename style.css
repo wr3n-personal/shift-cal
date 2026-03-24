@@ -1,6 +1,4 @@
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     font-family: system-ui, -apple-system, sans-serif;
@@ -10,154 +8,76 @@ body {
     min-height: 100vh;
 }
 
-.calendar {
-    width: 100%;
-    max-width: 820px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
-    overflow: hidden;
-}
+.calendar { width: 100%; max-width: 820px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.12); overflow: hidden; }
 
 header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 15px;
-    background: #4f46e5;
-    color: white;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    padding: 15px; background: #4f46e5; color: white;
 }
 
-header h2 {
-    margin: 0;
-    font-size: 1.55rem;
-    flex: 1;
-    text-align: center;
-}
+header h2 { margin: 0; font-size: 1.55rem; flex: 1; text-align: center; }
 
 button {
-    background: rgba(255,255,255,0.25);
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 10px;
-    font-size: 1.05rem;
-    min-height: 48px;
+    background: rgba(255,255,255,0.25); color: white; border: none; padding: 10px 16px;
+    border-radius: 10px; font-size: 1.05rem; min-height: 48px;
 }
 
-#today { padding: 10px 20px; }
+.weekdays { display: flex; background: #f1f1f1; font-weight: 600; color: #444; }
+.weekdays > div { flex: 1; text-align: center; padding: 12px 0; font-size: 0.95rem; }
 
-.weekdays {
-    display: flex;
-    background: #f1f1f1;
-    font-weight: 600;
-    color: #444;
-}
-
-.weekdays > div {
-    flex: 1;
-    text-align: center;
-    padding: 12px 0;
-    font-size: 0.95rem;
-}
-
-/* HLAVNÍ ZMĚNA – místo grid používáme flexbox (stabilnější na Safari iOS) */
-.days {
-    display: flex;
-    flex-wrap: wrap;
-    background: #ddd;
-}
-
+.days { display: flex; flex-wrap: wrap; background: #ddd; }
 .day {
-    width: 14.2857%;           /* přesně 1/7 */
-    background: white;
-    min-height: 92px;
-    padding: 8px 6px;
-    font-size: 1.15rem;
-    border-bottom: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    cursor: pointer;
+    width: 14.2857%; min-height: 92px; background: white; padding: 8px 6px; font-size: 1.15rem;
+    border-bottom: 1px solid #ddd; border-right: 1px solid #ddd;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+    cursor: pointer; position: relative;
+}
+.day:nth-child(7n) { border-right: none; }
+.day:hover, .day:active { background: #f0f4ff; }
+.day.other-month { color: #aaa; }
+.day.today { background: #e0e7ff; font-weight: bold; border: 2px solid #4f46e5; }
+
+/* Malý teček, když je v dni směna */
+.day.has-shift::after {
+    content: ''; position: absolute; bottom: 8px; width: 6px; height: 6px;
+    background: #4f46e5; border-radius: 50%;
 }
 
-.day:nth-child(7n) {        /* poslední sloupec v řádku */
-    border-right: none;
-}
-
-.day:hover, .day:active {
-    background: #f0f4ff;
-}
-
-.day.other-month {
-    color: #aaa;
-}
-
-.day.today {
-    background: #e0e7ff;
-    font-weight: bold;
-    border: 2px solid #4f46e5;
-}
-
-/* Modal – stejný jako předtím */
+/* Modaly */
 .modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.65);
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-    z-index: 1000;
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    align-items: center; justify-content: center; z-index: 2000; padding: 15px;
 }
 
 .modal-content {
-    background: white;
-    width: 100%;
-    max-width: 420px;
-    border-radius: 18px;
-    padding: 24px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-    max-height: 85vh;
-    overflow-y: auto;
+    background: white; width: 100%; max-width: 420px; border-radius: 20px;
+    padding: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.35); max-height: 85vh; overflow-y: auto;
 }
 
-.close {
-    position: absolute;
-    top: 14px; right: 20px;
-    font-size: 34px;
-    color: #888;
-    cursor: pointer;
-}
+.close { position: absolute; top: 16px; right: 20px; font-size: 36px; color: #666; cursor: pointer; }
 
+.shifts-list { margin: 20px 0; }
 .shift-item {
-    background: #f8f9ff;
-    padding: 14px;
-    margin-bottom: 12px;
-    border-radius: 12px;
-    border-left: 6px solid #4f46e5;
+    background: #f8f9ff; padding: 14px; margin-bottom: 12px; border-radius: 12px;
+    border-left: 6px solid var(--shift-color, #4f46e5);
 }
 
-.add-btn {
-    width: 100%;
-    padding: 16px;
-    font-size: 1.15rem;
-    background: #4f46e5;
-    color: white;
-    border: none;
-    border-radius: 12px;
+.add-btn, .form-buttons button { width: 100%; padding: 16px; font-size: 1.15rem; border: none; border-radius: 12px; }
+
+.add-form select, .add-form input, .add-form textarea {
+    width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ccc; border-radius: 10px; font-size: 16px;
 }
 
-.add-form input, .add-form textarea {
-    width: 100%;
-    padding: 14px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-size: 16px;
+/* Nastavení */
+.settings-modal { max-width: 460px; }
+.types-list { margin: 15px 0; }
+.type-item {
+    display: flex; align-items: center; padding: 12px; background: #f8f9fa;
+    border-radius: 10px; margin-bottom: 8px;
 }
+.type-item span { flex: 1; font-weight: 500; }
+.color-dot { width: 24px; height: 24px; border-radius: 50%; margin-right: 12px; border: 2px solid #fff; box-shadow: 0 0 0 1px #ddd; }
+
+.add-type-form { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+.add-type-form input[type="text"] { flex: 1; min-width: 160px; }
+.add-type-form input[type="color"] { width: 60px; padding: 4px; }
