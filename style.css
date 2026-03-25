@@ -2,34 +2,36 @@
 
 body {
     font-family: system-ui, -apple-system, sans-serif;
-    background: #f4f4f8;
+    background: #ffffff;
     margin: 0;
     padding: 10px;
 }
 
 .calendar {
-    background: white;
+    background: rgb(255, 255, 255);
     border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(112, 0, 241, 0.164);
     overflow: hidden;
     max-width: 820px;
     margin: 0 auto;
 }
 
 header {
-    background: #4f46e5;
+    background: #7700ff;
     color: white;
     padding: 12px;
     display: flex;
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
+    font-weight: bold;
 }
 
 header h2 { margin: 0; font-size: 1.5rem; flex: 1; text-align: center; }
 
 button {
-    background: rgba(255,255,255,0.25);
+    background: #7700ff;
+    font-weight: bold;
     color: white;
     border: none;
     padding: 10px 16px;
@@ -39,10 +41,11 @@ button {
 
 .weekdays {
     display: flex;
-    background: #f8f9fa;
+    background: #ffffff;
     font-weight: 600;
-    color: #444;
-    padding: 10px 0;
+    color: #3b007e;
+    padding: 5px 0;
+    font-weight: bold;
 }
 
 .weekdays > div { flex: 1; text-align: center; }
@@ -50,7 +53,7 @@ button {
 .days {
     display: flex;
     flex-wrap: wrap;
-    background: #e5e5e5;
+    background: rgba(204, 141, 255, 0.116)
 }
 
 .day {
@@ -60,15 +63,15 @@ button {
     border-bottom: 1px solid #e5e5e5;
     border-right: 1px solid #e5e5e5;
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     cursor: pointer;
 }
 
 .day:nth-child(7n) { border-right: none; }
-.day:hover { background: #f0f4ff; }
-.day.today { background: #dbeafe; font-weight: bold; }
+.day:hover { font-weight: bold;color: white ;background:  rgba(98, 0, 255, 0.925); }
+.day.today { color: #7700ff;background: #ffffff; font-weight: bold; }
 /* === FORMULÁŘ === */
 .add-form {
     margin-top: 15px;
@@ -76,7 +79,7 @@ button {
 
 .segmented-control {
     display: flex;
-    background: #f1f1f1;
+    background: #cecece;
     border-radius: 12px;
     padding: 4px;
     margin-bottom: 15px;
@@ -93,15 +96,15 @@ button {
 }
 
 .segment.active {
-    background: white;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    background: #7700ff;
+    box-shadow: 0 2px 6px rgba(255, 255, 255, 0.459);
     font-weight: 600;
 }
 
 .full-width {
     width: 100%;
     padding: 14px;
-    border: 1px solid #ddd;
+    border: 1px solid #ffffff;
     border-radius: 10px;
     font-size: 16px;
     margin-bottom: 12px;
@@ -137,12 +140,14 @@ button {
 }
 
 #saveShiftBtn {
-    background: #4f46e5;
+    background: #00a030b9;
     color: white;
+    font-weight: bold;
 }
 
 #cancelShiftBtn {
-    background: #e5e5e5;
-    color: #333;
+    background: #cc0000;
+    color: #ffffff;
+    font-weight: bold;
 }
 
