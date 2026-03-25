@@ -22,7 +22,7 @@
         <div id="days" class="days"></div>
     </div>
 
-    <!-- MODAL – toto bylo chybějící -->
+    <!-- Modal -->
     <div id="dayModal" class="modal">
         <div class="modal-content">
             <span id="closeDayModal" class="close">×</span>
@@ -31,6 +31,34 @@
             <div id="shiftsList" class="shifts-list"></div>
             
             <button id="addShiftBtn" class="add-btn">+ Přidat směnu</button>
+
+            <!-- Hezký formulář -->
+            <div id="addShiftForm" class="add-form" style="display: none;">
+                <div class="segmented-control">
+                    <button id="typeStandard" class="segment active">Standard</button>
+                    <button id="typeExpress" class="segment">Express</button>
+                </div>
+
+                <select id="shiftKind" class="full-width">
+                    <option value="">Vyber druh směny</option>
+                    <option value="Ranní">Ranní</option>
+                    <option value="Odpolední">Odpolední</option>
+                    <option value="Celodenní">Celodenní</option>
+                </select>
+
+                <div class="time-row">
+                    <input type="time" id="shiftStart" required>
+                    <span>–</span>
+                    <input type="time" id="shiftEnd" required>
+                </div>
+
+                <textarea id="shiftNote" placeholder="Poznámka (volitelné)"></textarea>
+
+                <div class="form-buttons">
+                    <button id="saveShiftBtn">Uložit směnu</button>
+                    <button id="cancelShiftBtn">Zrušit</button>
+                </div>
+            </div>
         </div>
     </div>
 
