@@ -4,43 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Můj Shift Planner</title>
+  
+  <!-- FullCalendar + Dexie -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css">
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2563eb">
+
+  <!-- Ikona v hlavičce -->
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/365/365219.png" type="image/png">
 </head>
 <body>
-  <div class="container">
+  <div class="app">
+    <!-- Hlavička přesně jako na tvém obrázku -->
     <header>
-      <h1>🗓️ Můj Shift Planner</h1>
-      <button id="add-shift-btn">+ Nová směna</button>
+      <div class="header-left">
+        <img src="https://cdn-icons-png.flaticon.com/512/365/365219.png" alt="calendar" width="32" height="32">
+        <h1>Můj Shift Planner</h1>
+      </div>
+      <button id="add-shift-btn" class="add-btn">
+        + Nová směna
+      </button>
     </header>
 
     <div id="calendar"></div>
+  </div>
 
-    <!-- Modal pro přidání/editaci směny -->
-    <div id="modal" class="modal">
-      <div class="modal-content">
-        <h2 id="modal-title">Nová směna</h2>
-        <form id="shift-form">
-          <input type="date" id="shift-date" required>
-          <select id="shift-type" required>
-            <option value="">Typ směny</option>
-            <option value="ranní">Ranní</option>
-            <option value="odpolední">Odpolední</option>
-            <option value="noční">Noční</option>
-            <option value="volno">Volno</option>
-          </select>
-          <input type="time" id="start-time">
-          <input type="time" id="end-time">
-          <input type="number" id="hours" placeholder="Počet hodin" step="0.5">
-          <textarea id="note" placeholder="Poznámka"></textarea>
-          <div class="buttons">
-            <button type="button" id="cancel-btn">Zrušit</button>
-            <button type="submit" id="save-btn">Uložit</button>
-          </div>
-        </form>
-      </div>
+  <!-- Modal (zůstává stejný jako minule) -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h2 id="modal-title">Nová směna</h2>
+      <form id="shift-form">
+        <input type="date" id="shift-date" required>
+        <select id="shift-type" required>
+          <option value="">Typ směny</option>
+          <option value="ranní">Ranní</option>
+          <option value="odpolední">Odpolední</option>
+          <option value="noční">Noční</option>
+          <option value="volno">Volno</option>
+        </select>
+        <input type="time" id="start-time" placeholder="Začátek">
+        <input type="time" id="end-time" placeholder="Konec">
+        <input type="number" id="hours" placeholder="Počet hodin" step="0.5">
+        <textarea id="note" placeholder="Poznámka (volitelné)"></textarea>
+        
+        <div class="buttons">
+          <button type="button" id="cancel-btn">Zrušit</button>
+          <button type="submit" id="save-btn">Uložit směnu</button>
+        </div>
+      </form>
     </div>
   </div>
 
