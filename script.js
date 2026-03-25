@@ -1,3 +1,5 @@
+// === KALENDÁŘ SMĚN – finální verze ===
+
 const daysContainer = document.getElementById('days');
 const monthYear = document.getElementById('monthYear');
 const prevBtn = document.getElementById('prev');
@@ -23,10 +25,9 @@ const cancelShiftBtn = document.getElementById('cancelShiftBtn');
 let currentDate = new Date();
 let selectedDateKey = '';
 let shifts = JSON.parse(localStorage.getItem('calendarShifts')) || [];
-
-// Aktivní typ (Standard/Express)
 let currentType = 'Standard';
 
+// Formát data
 function formatDateKey(date) {
     return date.toISOString().split('T')[0];
 }
@@ -89,11 +90,11 @@ function showShiftsForDay() {
     } else {
         dayShifts.forEach(shift => {
             const div = document.createElement('div');
-            div.style = 'background:#f0f9ff;padding:14px;margin:10px 0;border-radius:12px;border-left:6px solid #4f46e5;';
+            div.style = 'background:#f0f9ff; padding:14px; margin:10px 0; border-radius:12px; border-left:6px solid #4f46e5;';
             div.innerHTML = `
                 <strong>${shift.type} – ${shift.kind}</strong><br>
                 ${shift.start} – ${shift.end}
-                ${shift.note ? `<p style="margin:5px 0 0;font-size:0.9rem;">${shift.note}</p>` : ''}
+                ${shift.note ? `<p style="margin:5px 0 0; font-size:0.9rem;">${shift.note}</p>` : ''}
             `;
             shiftsList.appendChild(div);
         });
@@ -118,8 +119,8 @@ addShiftBtn.addEventListener('click', () => {
     addShiftForm.style.display = 'block';
     addShiftBtn.style.display = 'none';
     shiftKind.value = '';
-    shiftStart.value = '';
-    shiftEnd.value = '';
+    shiftStart.value = '07:00';
+    shiftEnd.value = '15:00';
     shiftNote.value = '';
 });
 
