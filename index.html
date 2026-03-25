@@ -1,67 +1,52 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Můj kalendář směn</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Můj Shift Planner</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2563eb">
 </head>
 <body>
-    <div class="calendar">
-        <header>
-            <button id="prev">←</button>
-            <h2 id="monthYear"></h2>
-            <button id="next">→</button>
-            <button id="today">Dnes</button>
-        </header>
-        
-        <div class="weekdays">
-            <div>Po</div><div>Út</div><div>St</div><div>Čt</div><div>Pá</div><div>So</div><div>Ne</div>
-        </div>
-        
-        <div id="days" class="days"></div>
+  <div class="container">
+    <header>
+      <h1>🗓️ Můj Shift Planner</h1>
+      <button id="add-shift-btn">+ Nová směna</button>
+    </header>
+
+    <div id="calendar"></div>
+
+    <!-- Modal pro přidání/editaci směny -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <h2 id="modal-title">Nová směna</h2>
+        <form id="shift-form">
+          <input type="date" id="shift-date" required>
+          <select id="shift-type" required>
+            <option value="">Typ směny</option>
+            <option value="ranní">Ranní</option>
+            <option value="odpolední">Odpolední</option>
+            <option value="noční">Noční</option>
+            <option value="volno">Volno</option>
+          </select>
+          <input type="time" id="start-time">
+          <input type="time" id="end-time">
+          <input type="number" id="hours" placeholder="Počet hodin" step="0.5">
+          <textarea id="note" placeholder="Poznámka"></textarea>
+          <div class="buttons">
+            <button type="button" id="cancel-btn">Zrušit</button>
+            <button type="submit" id="save-btn">Uložit</button>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 
-    <!-- Modal -->
-    <div id="dayModal" class="modal">
-        <div class="modal-content">
-            <span id="closeDayModal" class="close">×</span>
-            <h3 id="modalDate"></h3>
-            
-            <div id="shiftsList" class="shifts-list"></div>
-            
-            <button id="addShiftBtn" class="add-btn">+ Přidat směnu</button>
-
-            <!-- Hezký formulář -->
-            <div id="addShiftForm" class="add-form" style="display: none;">
-                <div class="segmented-control">
-                    <button id="typeStandard" class="segment active">Standard</button>
-                    <button id="typeExpress" class="segment">Express</button>
-                </div>
-
-                <select id="shiftKind" class="full-width">
-                    <option value="">Vyber druh směny</option>
-                    <option value="Ranní">Ranní</option>
-                    <option value="Odpolední">Odpolední</option>
-                    <option value="Celodenní">Celodenní</option>
-                </select>
-
-                <div class="time-row">
-                    <input type="time" id="shiftStart" required>
-                    <span>–</span>
-                    <input type="time" id="shiftEnd" required>
-                </div>
-
-                <textarea id="shiftNote" placeholder="Poznámka (volitelné)"></textarea>
-
-                <div class="form-buttons">
-                    <button id="saveShiftBtn">Uložit směnu</button>
-                    <button id="cancelShiftBtn">Zrušit</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+  <script src="https://unpkg.com/dexie@4.0.8/dist/modern/dexie.min.js"></script>
+  <script src="db.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
