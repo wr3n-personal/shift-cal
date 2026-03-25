@@ -69,3 +69,80 @@ button {
 .day:nth-child(7n) { border-right: none; }
 .day:hover { background: #f0f4ff; }
 .day.today { background: #dbeafe; font-weight: bold; }
+/* === FORMULÁŘ === */
+.add-form {
+    margin-top: 15px;
+}
+
+.segmented-control {
+    display: flex;
+    background: #f1f1f1;
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 15px;
+}
+
+.segment {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    cursor: pointer;
+}
+
+.segment.active {
+    background: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    font-weight: 600;
+}
+
+.full-width {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.time-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.time-row input[type="time"] {
+    flex: 1;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.form-buttons button {
+    flex: 1;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+}
+
+#saveShiftBtn {
+    background: #4f46e5;
+    color: white;
+}
+
+#cancelShiftBtn {
+    background: #e5e5e5;
+    color: #333;
+}
+
