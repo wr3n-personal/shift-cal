@@ -1,153 +1,76 @@
-* { box-sizing: border-box; }
-
 body {
-    font-family: system-ui, -apple-system, sans-serif;
-    background: #ffffff;
-    margin: 0;
-    padding: 10px;
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  background: #f8fafc;
+  color: #1e2937;
 }
 
-.calendar {
-    background: rgb(255, 255, 255);
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(112, 0, 241, 0.164);
-    overflow: hidden;
-    max-width: 820px;
-    margin: 0 auto;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 header {
-    background: #7700ff;
-    color: white;
-    padding: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-header h2 { margin: 0; font-size: 1.5rem; flex: 1; text-align: center; }
+#calendar {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 10px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 420px;
+}
+
+form input, form select, form textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
 
 button {
-    background: #7700ff;
-    font-weight: bold;
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 10px;
-    min-height: 48px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-.weekdays {
-    display: flex;
-    background: #ffffff;
-    font-weight: 600;
-    color: #3b007e;
-    padding: 5px 0;
-    font-weight: bold;
+#add-shift-btn, #save-btn {
+  background: #2563eb;
+  color: white;
 }
 
-.weekdays > div { flex: 1; text-align: center; }
-
-.days {
-    display: flex;
-    flex-wrap: wrap;
-    background: rgba(204, 141, 255, 0.116)
+#cancel-btn {
+  background: #e2e8f0;
 }
-
-.day {
-    width: 14.2857%;
-    min-height: 92px;
-    background: white;
-    border-bottom: 1px solid #e5e5e5;
-    border-right: 1px solid #e5e5e5;
-    display: flex;
-    align-items: start;
-    justify-content: center;
-    font-size: 1.1rem;
-    cursor: pointer;
-}
-
-.day:nth-child(7n) { border-right: none; }
-.day:hover { font-weight: bold;color: white ;background:  rgba(98, 0, 255, 0.925); }
-.day.today { color: #7700ff;background: #ffffff; font-weight: bold; }
-/* === FORMULÁŘ === */
-.add-form {
-    margin-top: 15px;
-}
-
-.segmented-control {
-    display: flex;
-    background: #cecece;
-    border-radius: 12px;
-    padding: 4px;
-    margin-bottom: 15px;
-}
-
-.segment {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    background: transparent;
-    border-radius: 10px;
-    font-size: 1.05rem;
-    cursor: pointer;
-}
-
-.segment.active {
-    background: #7700ff;
-    box-shadow: 0 2px 6px rgba(255, 255, 255, 0.459);
-    font-weight: 600;
-}
-
-.full-width {
-    width: 100%;
-    padding: 14px;
-    border: 1px solid #ffffff;
-    border-radius: 10px;
-    font-size: 16px;
-    margin-bottom: 12px;
-}
-
-.time-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-}
-
-.time-row input[type="time"] {
-    flex: 1;
-    padding: 14px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    font-size: 16px;
-}
-
-.form-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.form-buttons button {
-    flex: 1;
-    padding: 16px;
-    border: none;
-    border-radius: 12px;
-    font-size: 1.1rem;
-}
-
-#saveShiftBtn {
-    background: #00a030b9;
-    color: white;
-    font-weight: bold;
-}
-
-#cancelShiftBtn {
-    background: #cc0000;
-    color: #ffffff;
-    font-weight: bold;
-}
-
